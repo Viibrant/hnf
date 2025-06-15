@@ -28,12 +28,3 @@ impl Client {
         Ok(ids)
     }
 }
-
-#[cfg(test)]
-mod tests {
-
-    #[test]
-    fn dummy() -> () {
-        print!("All good!");
-    }
-}
