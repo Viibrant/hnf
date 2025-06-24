@@ -21,9 +21,20 @@ impl Client {
         }
     }
 
-    pub fn fetch_top_ids(&self) -> Result<Vec<u64>, Error> {
-        let url = format!("{}/topstories.json", &self.base);
-        let response: Response = self.http.get(url).send()?;
+    pub fn fetch_top_ids(&self, number: usize) -> Result<Vec<u64>, Error> {
+        let url = format!("{}/topstories.json?", &self.base);
+        let response: Response = self
+            .http
+            .get(url)
+            .query(&[
+                ("limitToFirst", number.to_string()),
+                ("orderBy", "\"$priority\"".to_string()),
+            ])
+            .send()?;
+        let ids: Vec<u64> = response.json()?;
+        Ok(ids)
+    }
+
         let ids: Vec<u64> = response.json()?;
         Ok(ids)
     }
