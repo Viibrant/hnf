@@ -35,6 +35,16 @@ impl Client {
         Ok(ids)
     }
 
+    pub fn fetch_new_stories(&self, number: usize) -> Result<Vec<u64>, Error> {
+        let url = format!("{}/newstories.json", &self.base);
+        let response: Response = self
+            .http
+            .get(url)
+            .query(&[
+                ("limitToFirst", number.to_string()),
+                ("orderBy", "\"$priority\"".to_string()),
+            ])
+            .send()?;
         let ids: Vec<u64> = response.json()?;
         Ok(ids)
     }
