@@ -13,12 +13,33 @@ impl fmt::Display for Client {
     }
 }
 
+#[derive(serde::Deserialize, Debug)]
+pub struct Story {
+    by: String,
+    descendants: u32,
+    id: u64,
+    kids: Vec<u64>,
+    score: u32,
+    text: Option<String>,
+    time: u64,
+    title: String,
+    r#type: String,
+    url: Option<String>,
+}
+
 impl Client {
     pub fn new() -> Self {
         Client {
             base: "https://hacker-news.firebaseio.com/v0".into(),
             http: reqwest::blocking::Client::new(),
         }
+    }
+
+    pub fn fetch_story(&self, id: usize) -> Result<Story, Error> {
+        let url = format!("{}/item/{}.json", &self.base, id);
+        let response: Response = self.http.get(url).send()?;
+        let story: Story = response.json()?;
+        Ok(story)
     }
 
     pub fn fetch_top_ids(&self, number: usize) -> Result<Vec<u64>, Error> {
