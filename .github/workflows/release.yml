@@ -24,6 +24,7 @@ jobs:
         run: cargo build --release
 
       - name: Rename binary
+        shell: bash
         run: |
           BIN_NAME="hnf"
           case "${{ matrix.os }}" in
