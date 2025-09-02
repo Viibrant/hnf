@@ -11,15 +11,14 @@ struct Cli {
 #[derive(Subcommand)]
 enum Commands {
     Top {
-        #[arg(short, long, default_value_t = 10)]
+        #[arg(default_value_t = 10)]
         number: usize,
     },
     New {
-        #[arg(short, long, default_value_t = 10)]
+        #[arg(default_value_t = 10)]
         number: usize,
     },
     Story {
-        #[arg(short, long, default_value_t = 10)]
         number: usize,
     },
 }
