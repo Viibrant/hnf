@@ -23,7 +23,24 @@ jobs:
       - name: Build binary
         run: cargo build --release
 
+      - name: Rename binary
+        run: |
+          BIN_NAME="hnf"
+          case "${{ matrix.os }}" in
+            ubuntu-latest)   OUT="${BIN_NAME}-x86_64-unknown-linux-gnu" ;;
+            macos-latest)    OUT="${BIN_NAME}-x86_64-apple-darwin" ;;
+            windows-latest)  OUT="${BIN_NAME}-x86_64-pc-windows-msvc.exe" ;;
+          esac
+
+          if [ "${{ matrix.os }}" = "windows-latest" ]; then
+            mv target/release/${BIN_NAME}.exe "$OUT"
+          else
+            mv target/release/${BIN_NAME} "$OUT"
+          fi
+
+          echo "OUT=$OUT" >> $GITHUB_ENV
+
       - name: Upload binary
         uses: softprops/action-gh-release@v2
         with:
-          files: target/release/hnf${{ runner.os == 'Windows' && '.exe' || '' }}
+          files: ${{ env.OUT }}
