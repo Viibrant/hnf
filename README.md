@@ -6,6 +6,8 @@ Fetch top stories, new stories, or details of a single story.
 
 ## Usage
 
+> [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/Viibrant/hnf/tree/main?quickstart=1)
+
 ```bash
 # Top stories
 hnf top
